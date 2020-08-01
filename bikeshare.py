@@ -179,27 +179,27 @@ def time_stats(df):
     if month_mode.size == 1:
         print('most frequent month: {}'.format(MONTHS[month_mode[0] - 1]))
     else:
-        print('most frequent months:')
         for i in range(month_mode.size):
-            print('    {}'.format(MONTHS[month_mode[i] - 1]))
+            month_mode[i] = MONTHS[month_mode[i] - 1]
+        print('most frequent months: {}'.format(', '.join(month_mode)))
 
     # display the most common day(s) of week
     day_mode = df['day'].mode()
     if day_mode.size == 1:
         print('\nmost frequent day: {}'.format(DAYS[day_mode[0]]))
     else:
-        print('\nmost frequent days:')
         for i in range(day_mode.size):
-            print('    {}'.format(DAYS[day_mode[i]]))
+            day_mode[i] = DAYS[day_mode[i]]
+        print('\nmost frequent days: {}'.format(', '.join(day_mode)))
 
     # display the most common start hour(s)
     hour_mode = df['hour'].mode()
     if hour_mode.size == 1:
         print('\nmost frequent start hour: {}'.format(HOURS[hour_mode[0] - 1]))
     else:
-        print('\nmost frequent start hours:')
         for i in range(hour_mode.size):
-            print('    {}'.format(HOURS[hour_mode[i] - 1]))
+            hour_mode[i] = HOURS[hour_mode[i] - 1]
+        print('\nmost frequent start hours: {}'.format(', '.join(hour_mode)))
 
     print('\n... this took {} seconds to complete'.format(time.time() - start_time))
     print('-'*80)
