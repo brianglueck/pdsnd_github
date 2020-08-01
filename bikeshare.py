@@ -42,8 +42,9 @@ def choose(choices):
 
 def full_month(month):
     """
-    Expands month from first three letters to full month name, or 'all' if
-    month is 'all'
+    If the argument month is 'all', then returns 'all'.  Otherwise, Expands
+    the argument month from the first three letters of a month to the month's
+    full name.
 
     Args:
         (str) month - first three letters of a month's name or 'all'
