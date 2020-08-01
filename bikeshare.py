@@ -42,7 +42,7 @@ def choose(choices):
 
 def full_month(month):
     """
-    If the argument month is 'all', then returns 'all'.  Otherwise, Expands
+    If the argument month is 'all', then returns 'all'.  Otherwise, expands
     the argument month from the first three letters of a month to the month's
     full name.
 
@@ -255,8 +255,19 @@ def hms(n):
         (int) minutes - number of minutes from 0 (inclusive) to 60 (exclusive)
         (int) seconds - number of seconds from 0 (inclusive) to 60 (exclusive)
     """
+    # seconds are the remainder after division by 60, since anything over 60
+    # will be aggregated into minutes or hours
     seconds = int(n % 60)
+
+    # if we subtract seconds from n, then we know we have a multiple of 60;
+    # divide by 60, then take the remainder of that after division by 60 to
+    # find the number of minutes
     minutes = int((n - seconds)/60 % 60)
+
+    # similarly, if we subtract minutes from (n - seconds)/60, then we know
+    # we have another multiple of 60; divide by 60 to find the number of hours;
+    # NOTE that this may give more than 24 hours, so it will be up to the code
+    # that calls hms() to decide how to display that
     hours = int(((n - seconds)/60 - minutes)/60)
 
     return hours, minutes, seconds
