@@ -160,7 +160,7 @@ def load_data(city, month, day):
         # filter by weekday to create the new DataFrame
         df = df[df['day'] == day]
 
-    print('\n{} records loaded'.format(df.shape[0]))
+    print('\n{} records loaded'.format(len(df.index)))
 
     print('\n... this took {} seconds to complete'.format(time.time() - start_time))
     print('-'*80)
@@ -335,7 +335,7 @@ def print_data(df):
     # display 5 rows of data at a time as long as the user wants to see it
     print('Would you like to view individual trip data?')
     response = choose(['yes', 'no'])
-    for n in range(0, df.shape[0], 5):
+    for n in range(0, len(df.index), 5):
         if response != 'yes':
             return
         print(df[n:n+5])
