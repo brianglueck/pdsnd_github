@@ -161,7 +161,7 @@ def load_data(city, month, day):
         # filter by weekday to create the new DataFrame
         df = df[df['day'] == day]
 
-    print('\n{} records loaded'.format(df.shape[0]))
+    print('\n{} records loaded'.format(len(df.index)))
 
     print('\n... this took {} seconds to complete'.format(time.time() - start_time))
     print('-'*80)
@@ -180,27 +180,27 @@ def time_stats(df):
     if month_mode.size == 1:
         print('most frequent month: {}'.format(MONTHS[month_mode[0] - 1]))
     else:
-        print('most frequent months:')
         for i in range(month_mode.size):
-            print('    {}'.format(MONTHS[month_mode[i] - 1]))
+            month_mode[i] = MONTHS[month_mode[i] - 1]
+        print('most frequent months: {}'.format(', '.join(month_mode)))
 
     # display the most common day(s) of week
     day_mode = df['day'].mode()
     if day_mode.size == 1:
         print('\nmost frequent day: {}'.format(DAYS[day_mode[0]]))
     else:
-        print('\nmost frequent days:')
         for i in range(day_mode.size):
-            print('    {}'.format(DAYS[day_mode[i]]))
+            day_mode[i] = DAYS[day_mode[i]]
+        print('\nmost frequent days: {}'.format(', '.join(day_mode)))
 
     # display the most common start hour(s)
     hour_mode = df['hour'].mode()
     if hour_mode.size == 1:
         print('\nmost frequent start hour: {}'.format(HOURS[hour_mode[0] - 1]))
     else:
-        print('\nmost frequent start hours:')
         for i in range(hour_mode.size):
-            print('    {}'.format(HOURS[hour_mode[i] - 1]))
+            hour_mode[i] = HOURS[hour_mode[i] - 1]
+        print('\nmost frequent start hours: {}'.format(', '.join(hour_mode)))
 
     print('\n... this took {} seconds to complete'.format(time.time() - start_time))
     print('-'*80)
@@ -217,18 +217,14 @@ def station_stats(df):
     if start_mode.size == 1:
         print('most popular starting station: {}'.format(start_mode[0]))
     else:
-        print('most popular starting stations:')
-        for i in range(start_mode.size):
-            print('    {}'.format(start_mode[i]))
+        print('most popular starting stations:\n    {}'.format('\n    '.join(start_mode)))
 
     # display most commonly used end station(s)
     end_mode = df['End Station'].mode()
     if end_mode.size == 1:
         print('\nmost popular ending station: {}'.format(end_mode[0]))
     else:
-        print('\nmost popular ending stations:')
-        for i in range(end_mode.size):
-            print('    {}'.format(end_mode[i]))
+        print('\nmost popular ending stations:\n    {}'.format('\n    '.join(end_mode)))
 
     # display most frequent combination(s) of start station and end station trip
     df['trip'] = df['Start Station'] + ' to ' + df['End Station']
@@ -236,9 +232,7 @@ def station_stats(df):
     if trip_mode.size == 1:
         print('\nmost popular trip: {}'.format(trip_mode[0]))
     else:
-        print('\nmost popular trips:')
-        for i in range(trip_mode.size):
-            print('    {}'.format(trip_mode[i]))
+        print('\nmost popular trips:\n    {}'.format('\n    '.join(trip_mode)))
 
     print('\n... this took {} seconds to complete'.format(time.time() - start_time))
     print('-'*80)
@@ -320,9 +314,8 @@ def user_stats(df):
         print('earliest        {}'.format(int(df['Birth Year'].min())))
         print('most recent     {}'.format(int(df['Birth Year'].max())))
 
-        year_mode = df['Birth Year'].mode()
-        for i in range(year_mode.size):
-            print('most common     {}'.format(int(year_mode[i])))
+        year_mode = df['Birth Year'].mode().astype(int).astype(str)
+        print('most common     {}'.format(', '.join(year_mode)))
     else:
         print('\nThis data does not include birth year')
 
@@ -347,7 +340,7 @@ def print_data(df):
     # display 5 rows of data at a time as long as the user wants to see it
     print('Would you like to view individual trip data?')
     response = choose(['yes', 'no'])
-    for n in range(0, df.shape[0], 5):
+    for n in range(0, len(df.index), 5):
         if response != 'yes':
             return
         print(df[n:n+5])
