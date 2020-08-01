@@ -216,18 +216,14 @@ def station_stats(df):
     if start_mode.size == 1:
         print('most popular starting station: {}'.format(start_mode[0]))
     else:
-        print('most popular starting stations:')
-        for i in range(start_mode.size):
-            print('    {}'.format(start_mode[i]))
+        print('most popular starting stations:\n    {}'.format('\n    '.join(start_mode)))
 
     # display most commonly used end station(s)
     end_mode = df['End Station'].mode()
     if end_mode.size == 1:
         print('\nmost popular ending station: {}'.format(end_mode[0]))
     else:
-        print('\nmost popular ending stations:')
-        for i in range(end_mode.size):
-            print('    {}'.format(end_mode[i]))
+        print('\nmost popular ending stations:\n    {}'.format('\n    '.join(end_mode)))
 
     # display most frequent combination(s) of start station and end station trip
     df['trip'] = df['Start Station'] + ' to ' + df['End Station']
@@ -235,9 +231,7 @@ def station_stats(df):
     if trip_mode.size == 1:
         print('\nmost popular trip: {}'.format(trip_mode[0]))
     else:
-        print('\nmost popular trips:')
-        for i in range(trip_mode.size):
-            print('    {}'.format(trip_mode[i]))
+        print('\nmost popular trips:\n    {}'.format('\n    '.join(trip_mode)))
 
     print('\n... this took {} seconds to complete'.format(time.time() - start_time))
     print('-'*80)
