@@ -302,9 +302,8 @@ def user_stats(df):
         print('earliest        {}'.format(int(df['Birth Year'].min())))
         print('most recent     {}'.format(int(df['Birth Year'].max())))
 
-        year_mode = df['Birth Year'].mode()
-        for i in range(year_mode.size):
-            print('most common     {}'.format(int(year_mode[i])))
+        year_mode = df['Birth Year'].mode().astype(int).astype(str)
+        print('most common     {}'.format(', '.join(year_mode)))
     else:
         print('\nThis data does not include birth year')
 
